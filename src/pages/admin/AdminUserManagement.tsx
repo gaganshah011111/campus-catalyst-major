@@ -33,22 +33,22 @@ const AdminUserManagement: React.FC = () => {
   };
   
   return (
-    <div>
-      <header className="mb-6">
-        <h1 className="text-2xl font-bold mb-2">User Management</h1>
-        <p className="text-gray-600">View and manage all users in the system</p>
+    <div className="container mx-auto px-2 sm:px-4 py-4 max-w-7xl">
+      <header className="mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-1">User Management</h1>
+        <p className="text-muted-foreground text-sm sm:text-base">View and manage all users in the system</p>
       </header>
       
       {/* Filters */}
-      <div className="bg-card dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-border mb-6">
-        <div className="flex flex-col gap-4">
+      <div className="bg-card dark:bg-gray-800 p-3 sm:p-4 rounded-lg shadow-sm border border-border mb-6">
+        <div className="flex flex-col gap-3">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
             <Input 
               placeholder="Search users by name or email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="pl-10 text-sm"
             />
           </div>
           
@@ -100,7 +100,8 @@ const AdminUserManagement: React.FC = () => {
           <>
             {/* Desktop View */}
             <div className="hidden sm:block overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
-              <table className="min-w-full divide-y divide-gray-200">
+              <div className="overflow-x-auto">
+                <table className="w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
                     <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -168,7 +169,8 @@ const AdminUserManagement: React.FC = () => {
                     </tr>
                   ))}
                 </tbody>
-              </table>
+                </table>
+              </div>
             </div>
 
             {/* Mobile View */}

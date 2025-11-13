@@ -540,76 +540,91 @@ const OrganizerSearch: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">Deep Search</h1>
-        <p className="text-muted-foreground mt-2">
+    <div className="container mx-auto px-2 sm:px-4 py-6 sm:py-8 max-w-7xl">
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">Deep Search</h1>
+        <p className="text-xs sm:text-sm text-muted-foreground mt-2">
           Search and manage participants from your events
         </p>
       </div>
 
       <Tabs value={activeView} onValueChange={(v) => setActiveView(v as 'events' | 'participants' | 'winners')} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="events" className="flex items-center gap-2">
-            <Calendar className="h-4 w-4" />
-            Search by Events
+        <TabsList className="grid w-full grid-cols-3 gap-0 h-auto">
+          <TabsTrigger value="events" className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-2 sm:py-3 px-1 sm:px-3 text-xs sm:text-sm">
+            <Calendar className="h-4 w-4 flex-shrink-0" />
+            <span className="hidden sm:inline">Search by Events</span>
+            <span className="sm:hidden">Events</span>
           </TabsTrigger>
-          <TabsTrigger value="participants" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            Search in Event
+          <TabsTrigger value="participants" className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-2 sm:py-3 px-1 sm:px-3 text-xs sm:text-sm">
+            <Users className="h-4 w-4 flex-shrink-0" />
+            <span className="hidden sm:inline">Search in Event</span>
+            <span className="sm:hidden">Participants</span>
           </TabsTrigger>
-          <TabsTrigger value="winners" className="flex items-center gap-2">
-            <Trophy className="h-4 w-4" />
-            Search Winners
+          <TabsTrigger value="winners" className="flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-2 sm:py-3 px-1 sm:px-3 text-xs sm:text-sm">
+            <Trophy className="h-4 w-4 flex-shrink-0" />
+            <span className="hidden sm:inline">Search Winners</span>
+            <span className="sm:hidden">Winners</span>
           </TabsTrigger>
         </TabsList>
 
         {/* View 1: Search by Events */}
         <TabsContent value="events" className="space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Search className="h-5 w-5" />
-                Search by Event Name, Venue and Date Range
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Search className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                <span className="text-sm sm:text-base">Search by Event</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Event Name</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Event Name</label>
                   <Input
                     placeholder="Search event name..."
                     value={eventFilters.eventName}
                     onChange={(e) => setEventFilters({ ...eventFilters, eventName: e.target.value })}
+                    className="text-xs sm:text-sm"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Venue</label>
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Venue</label>
                   <Input
                     placeholder="Search venue..."
                     value={eventFilters.venue}
                     onChange={(e) => setEventFilters({ ...eventFilters, venue: e.target.value })}
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Start Date</label>
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Venue</label>
+                  <Input
+                    placeholder="Search venue..."
+                    value={eventFilters.venue}
+                    onChange={(e) => setEventFilters({ ...eventFilters, venue: e.target.value })}
+                    className="text-xs sm:text-sm"
+                  />
+                </div>
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Start Date</label>
                   <Input
                     type="date"
                     value={eventFilters.startDate}
                     onChange={(e) => setEventFilters({ ...eventFilters, startDate: e.target.value })}
+                    className="text-xs sm:text-sm"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">End Date</label>
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">End Date</label>
                   <Input
                     type="date"
                     value={eventFilters.endDate}
                     onChange={(e) => setEventFilters({ ...eventFilters, endDate: e.target.value })}
+                    className="text-xs sm:text-sm"
                   />
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button onClick={handleEventSearch} disabled={eventLoading}>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Button onClick={handleEventSearch} disabled={eventLoading} className="w-full sm:w-auto text-xs sm:text-sm">
                   {eventLoading ? 'Searching...' : 'Search'}
                 </Button>
                 <Button
@@ -618,6 +633,7 @@ const OrganizerSearch: React.FC = () => {
                     setEventFilters({ eventName: '', startDate: '', endDate: '', venue: '' });
                     setEventResults([]);
                   }}
+                  className="text-xs sm:text-sm"
                 >
                   Clear
                 </Button>
@@ -625,100 +641,133 @@ const OrganizerSearch: React.FC = () => {
                   variant="outline"
                   onClick={handleEventExportCSV}
                   disabled={eventExportLoading || eventResults.length === 0}
-                  className="ml-auto"
+                  className="sm:ml-auto w-full sm:w-auto text-xs sm:text-sm"
                 >
-                  <Download className="h-4 w-4 mr-2" />
-                  {eventExportLoading ? 'Exporting...' : 'Export CSV'}
+                  <Download className="h-4 w-4 mr-1 sm:mr-2" />
+                  <span>Export</span>
                 </Button>
               </div>
             </CardContent>
           </Card>
 
           {eventResults.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Search Results ({eventResults.length} participants found)</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Event Title</TableHead>
-                        <TableHead>Event Date</TableHead>
-                        <TableHead>End Date</TableHead>
-                        <TableHead>Venue</TableHead>
-                        <TableHead>Participant Name</TableHead>
-                        <TableHead>Roll Number</TableHead>
-                        <TableHead>Department</TableHead>
-                        <TableHead>Class</TableHead>
-                        <TableHead>Year</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Registration Time</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {eventResults.map((participant: any) => (
-                        <TableRow key={participant.id}>
-                          <TableCell className="font-medium">{participant.events?.title || ''}</TableCell>
-                          <TableCell>
-                            {participant.events?.start_time
-                              ? format(new Date(participant.events.start_time), 'MMM dd, yyyy HH:mm')
-                              : ''}
-                          </TableCell>
-                          <TableCell>
-                            {participant.events?.end_time
-                              ? format(new Date(participant.events.end_time), 'MMM dd, yyyy HH:mm')
-                              : ''}
-                          </TableCell>
-                          <TableCell>{participant.events?.location || participant.events?.venue || ''}</TableCell>
-                          <TableCell>{participant.participant_name || participant.profile?.name || ''}</TableCell>
-                          <TableCell>{participant.roll_number || ''}</TableCell>
-                          <TableCell>{participant.department || ''}</TableCell>
-                          <TableCell>{participant.class || ''}</TableCell>
-                          <TableCell>{participant.year || ''}</TableCell>
-                          <TableCell>
-                            <span className={`px-2 py-1 rounded text-xs ${
-                              participant.status === 'attended' ? 'bg-green-100 text-green-800' :
-                              participant.status === 'registered' ? 'bg-blue-100 text-blue-800' :
-                              'bg-gray-100 text-gray-800'
-                            }`}>
-                              {participant.status}
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            {participant.registration_time
-                              ? format(new Date(participant.registration_time), 'MMM dd, yyyy HH:mm')
-                              : ''}
-                          </TableCell>
+            <>
+              <Card className="hidden md:block">
+                <CardHeader>
+                  <CardTitle>Search Results ({eventResults.length} participants found)</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Event Title</TableHead>
+                          <TableHead>Event Date</TableHead>
+                          <TableHead>End Date</TableHead>
+                          <TableHead>Venue</TableHead>
+                          <TableHead>Participant Name</TableHead>
+                          <TableHead>Roll Number</TableHead>
+                          <TableHead>Department</TableHead>
+                          <TableHead>Class</TableHead>
+                          <TableHead>Year</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Registration Time</TableHead>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </CardContent>
-            </Card>
+                      </TableHeader>
+                      <TableBody>
+                        {eventResults.map((participant: any) => (
+                          <TableRow key={participant.id}>
+                            <TableCell className="font-medium">{participant.events?.title || ''}</TableCell>
+                            <TableCell>
+                              {participant.events?.start_time
+                                ? format(new Date(participant.events.start_time), 'MMM dd, yyyy HH:mm')
+                                : ''}
+                            </TableCell>
+                            <TableCell>
+                              {participant.events?.end_time
+                                ? format(new Date(participant.events.end_time), 'MMM dd, yyyy HH:mm')
+                                : ''}
+                            </TableCell>
+                            <TableCell>{participant.events?.location || participant.events?.venue || ''}</TableCell>
+                            <TableCell>{participant.participant_name || participant.profile?.name || ''}</TableCell>
+                            <TableCell>{participant.roll_number || ''}</TableCell>
+                            <TableCell>{participant.department || ''}</TableCell>
+                            <TableCell>{participant.class || ''}</TableCell>
+                            <TableCell>{participant.year || ''}</TableCell>
+                            <TableCell>
+                              <span className={`px-2 py-1 rounded text-xs ${
+                                participant.status === 'attended' ? 'bg-green-100 text-green-800' :
+                                participant.status === 'registered' ? 'bg-blue-100 text-blue-800' :
+                                'bg-gray-100 text-gray-800'
+                              }`}>
+                                {participant.status}
+                              </span>
+                            </TableCell>
+                            <TableCell>
+                              {participant.registration_time
+                                ? format(new Date(participant.registration_time), 'MMM dd, yyyy HH:mm')
+                                : ''}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="md:hidden space-y-3">
+                <div className="text-sm font-semibold mb-3">Search Results ({eventResults.length} participants found)</div>
+                {eventResults.map((participant: any) => (
+                  <Card key={`evt-${participant.id}`}>
+                    <CardContent className="pt-4 space-y-2">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-semibold text-sm">{participant.events?.title || ''}</h3>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {participant.events?.start_time ? format(new Date(participant.events.start_time), 'MMM dd, HH:mm') : ''}
+                          </p>
+                        </div>
+                        <span className={`px-2 py-1 rounded text-xs ${
+                          participant.status === 'attended' ? 'bg-green-100 text-green-800' :
+                          participant.status === 'registered' ? 'bg-blue-100 text-blue-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}>
+                          {participant.status}
+                        </span>
+                      </div>
+                      <div className="text-xs space-y-1 pt-2 border-t">
+                        <div><strong>Participant:</strong> {participant.participant_name || participant.profile?.name || ''}</div>
+                        <div><strong>Roll:</strong> {participant.roll_number || '-'}</div>
+                        <div><strong>Dept:</strong> {participant.department || '-'} | <strong>Class:</strong> {participant.class || '-'}</div>
+                        <div><strong>Venue:</strong> {participant.events?.location || '-'}</div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </>
           )}
         </TabsContent>
 
         {/* View 2: Search within specific event */}
         <TabsContent value="participants" className="space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Search className="h-5 w-5" />
-                Search Participants in Specific Event
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Search className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                <span className="text-sm sm:text-base">Search Participants</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Select Event *</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Select Event *</label>
                   <Select
                     value={participantFilters.eventId}
                     onValueChange={(value) => setParticipantFilters({ ...participantFilters, eventId: value })}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="text-xs sm:text-sm">
                       <SelectValue placeholder="Select an event..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -730,15 +779,16 @@ const OrganizerSearch: React.FC = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Name</label>
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Name</label>
                   <Input
                     placeholder="Search by name..."
                     value={participantFilters.name}
                     onChange={(e) => setParticipantFilters({ ...participantFilters, name: e.target.value })}
+                    className="text-xs sm:text-sm"
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1 sm:space-y-2">
                   <label className="text-sm font-medium">Roll Number</label>
                   <Input
                     placeholder="Search by roll number..."
@@ -746,33 +796,36 @@ const OrganizerSearch: React.FC = () => {
                     onChange={(e) => setParticipantFilters({ ...participantFilters, rollNumber: e.target.value })}
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Department</label>
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Department</label>
                   <Input
                     placeholder="Search by department..."
                     value={participantFilters.department}
                     onChange={(e) => setParticipantFilters({ ...participantFilters, department: e.target.value })}
+                    className="text-xs sm:text-sm"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Class</label>
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Class</label>
                   <Input
                     placeholder="Search by class..."
                     value={participantFilters.class}
                     onChange={(e) => setParticipantFilters({ ...participantFilters, class: e.target.value })}
+                    className="text-xs sm:text-sm"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Year</label>
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Year</label>
                   <Input
                     placeholder="Search by year..."
                     value={participantFilters.year}
                     onChange={(e) => setParticipantFilters({ ...participantFilters, year: e.target.value })}
+                    className="text-xs sm:text-sm"
                   />
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button onClick={handleParticipantSearch} disabled={participantLoading || !participantFilters.eventId}>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Button onClick={handleParticipantSearch} disabled={participantLoading || !participantFilters.eventId} className="w-full sm:w-auto text-xs sm:text-sm">
                   {participantLoading ? 'Searching...' : 'Search'}
                 </Button>
                 <Button
@@ -795,7 +848,7 @@ const OrganizerSearch: React.FC = () => {
                   variant="outline"
                   onClick={handleParticipantExportCSV}
                   disabled={participantExportLoading || participantResults.length === 0}
-                  className="ml-auto"
+                  className="sm:ml-auto w-full sm:w-auto"
                 >
                   <Download className="h-4 w-4 mr-2" />
                   {participantExportLoading ? 'Exporting...' : 'Export CSV'}
@@ -805,81 +858,113 @@ const OrganizerSearch: React.FC = () => {
           </Card>
 
           {participantResults.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Search Results ({participantResults.length} participants found)</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Participant Name</TableHead>
-                        <TableHead>Roll Number</TableHead>
-                        <TableHead>Department</TableHead>
-                        <TableHead>Class</TableHead>
-                        <TableHead>Year</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Registration Time</TableHead>
-                        <TableHead>Check-in Time</TableHead>
-                        <TableHead>Winner</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {participantResults.map((participant: any) => (
-                        <TableRow key={participant.id}>
-                          <TableCell className="font-medium">
-                            {participant.participant_name || participant.profile?.name || ''}
-                          </TableCell>
-                          <TableCell>{participant.roll_number || ''}</TableCell>
-                          <TableCell>{participant.department || ''}</TableCell>
-                          <TableCell>{participant.class || ''}</TableCell>
-                          <TableCell>{participant.year || ''}</TableCell>
-                          <TableCell>
-                            <span className={`px-2 py-1 rounded text-xs ${
-                              participant.status === 'attended' ? 'bg-green-100 text-green-800' :
-                              participant.status === 'registered' ? 'bg-blue-100 text-blue-800' :
-                              'bg-gray-100 text-gray-800'
-                            }`}>
-                              {participant.status}
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            {participant.registration_time
-                              ? format(new Date(participant.registration_time), 'MMM dd, yyyy HH:mm')
-                              : ''}
-                          </TableCell>
-                          <TableCell>
-                            {participant.check_in_time
-                              ? format(new Date(participant.check_in_time), 'MMM dd, yyyy HH:mm')
-                              : '-'}
-                          </TableCell>
-                          <TableCell>
-                            {participant.is_winner ? (
-                              <span className="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Yes</span>
-                            ) : (
-                              <span className="text-muted-foreground">No</span>
-                            )}
-                          </TableCell>
+            <>
+              <Card className="hidden md:block">
+                <CardHeader>
+                  <CardTitle>Search Results ({participantResults.length} participants found)</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Participant Name</TableHead>
+                          <TableHead>Roll Number</TableHead>
+                          <TableHead>Department</TableHead>
+                          <TableHead>Class</TableHead>
+                          <TableHead>Year</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Registration Time</TableHead>
+                          <TableHead>Check-in Time</TableHead>
+                          <TableHead>Winner</TableHead>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </CardContent>
-            </Card>
+                      </TableHeader>
+                      <TableBody>
+                        {participantResults.map((participant: any) => (
+                          <TableRow key={participant.id}>
+                            <TableCell className="font-medium">
+                              {participant.participant_name || participant.profile?.name || ''}
+                            </TableCell>
+                            <TableCell>{participant.roll_number || ''}</TableCell>
+                            <TableCell>{participant.department || ''}</TableCell>
+                            <TableCell>{participant.class || ''}</TableCell>
+                            <TableCell>{participant.year || ''}</TableCell>
+                            <TableCell>
+                              <span className={`px-2 py-1 rounded text-xs ${
+                                participant.status === 'attended' ? 'bg-green-100 text-green-800' :
+                                participant.status === 'registered' ? 'bg-blue-100 text-blue-800' :
+                                'bg-gray-100 text-gray-800'
+                              }`}>
+                                {participant.status}
+                              </span>
+                            </TableCell>
+                            <TableCell>
+                              {participant.registration_time
+                                ? format(new Date(participant.registration_time), 'MMM dd, yyyy HH:mm')
+                                : ''}
+                            </TableCell>
+                            <TableCell>
+                              {participant.check_in_time
+                                ? format(new Date(participant.check_in_time), 'MMM dd, yyyy HH:mm')
+                                : '-'}
+                            </TableCell>
+                            <TableCell>
+                              {participant.is_winner ? (
+                                <span className="px-2 py-1 rounded text-xs bg-green-100 text-green-800">Yes</span>
+                              ) : (
+                                <span className="text-muted-foreground">No</span>
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="md:hidden space-y-3">
+                <div className="text-sm font-semibold mb-3">Search Results ({participantResults.length} participants found)</div>
+                {participantResults.map((participant: any) => (
+                  <Card key={`p-${participant.id}`}>
+                    <CardContent className="pt-4 space-y-2">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-semibold text-sm">{participant.participant_name || participant.profile?.name || ''}</h3>
+                          <p className="text-xs text-gray-500 mt-1">{participant.roll_number || '-'}</p>
+                        </div>
+                        <span className={`px-2 py-1 rounded text-xs ${
+                          participant.status === 'attended' ? 'bg-green-100 text-green-800' :
+                          participant.status === 'registered' ? 'bg-blue-100 text-blue-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}>
+                          {participant.status}
+                        </span>
+                      </div>
+                      <div className="text-xs space-y-1 pt-2 border-t">
+                        <div><strong>Dept:</strong> {participant.department || '-'} | <strong>Class:</strong> {participant.class || '-'}</div>
+                        <div><strong>Year:</strong> {participant.year || '-'}</div>
+                        <div><strong>Registered:</strong> {participant.registration_time ? format(new Date(participant.registration_time), 'MMM dd, HH:mm') : '-'}</div>
+                        <div><strong>Check-in:</strong> {participant.check_in_time ? format(new Date(participant.check_in_time), 'MMM dd, HH:mm') : '-'}</div>
+                        <div><strong>Winner:</strong> {participant.is_winner ? '✓ Yes' : 'No'}</div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </>
           )}
         </TabsContent>
 
         {/* View 3: Search Winners */}
         <TabsContent value="winners" className="space-y-6">
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Trophy className="h-5 w-5" />
-                Search Event Winners
+            <CardHeader className="pb-3">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Trophy className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+                <span className="text-sm sm:text-base">Search Winners</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-xs sm:text-sm">
                 Search for winners (1st, 2nd, 3rd place) in a specific event
               </CardDescription>
             </CardHeader>
@@ -887,58 +972,63 @@ const OrganizerSearch: React.FC = () => {
               {winnerLoading && (
                 <div className="text-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
-                  <p className="mt-2 text-sm text-gray-500">Searching for winners...</p>
+                  <p className="mt-2 text-xs sm:text-sm text-gray-500">Searching for winners...</p>
                 </div>
               )}
               
               {!winnerLoading && (
               <>
               {/* Quick Winner Filters */}
-              <div className="flex flex-wrap gap-2 mb-4">
+              <div className="flex flex-wrap gap-1 sm:gap-2 mb-4">
                 <Button
                   variant={winnerFilters.position === '1' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setWinnerFilters({ ...winnerFilters, position: winnerFilters.position === '1' ? 'all' : '1' })}
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 text-xs sm:text-sm"
                 >
-                  <Trophy className="h-4 w-4 text-yellow-500" />
-                  1st Place
+                  <Trophy className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-500 flex-shrink-0" />
+                  <span className="hidden sm:inline">1st Place</span>
+                  <span className="sm:hidden">1st</span>
                 </Button>
                 <Button
                   variant={winnerFilters.position === '2' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setWinnerFilters({ ...winnerFilters, position: winnerFilters.position === '2' ? 'all' : '2' })}
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 text-xs sm:text-sm"
                 >
-                  <Medal className="h-4 w-4 text-gray-400" />
-                  2nd Place
+                  <Medal className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400 flex-shrink-0" />
+                  <span className="hidden sm:inline">2nd Place</span>
+                  <span className="sm:hidden">2nd</span>
                 </Button>
                 <Button
                   variant={winnerFilters.position === '3' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setWinnerFilters({ ...winnerFilters, position: winnerFilters.position === '3' ? 'all' : '3' })}
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 text-xs sm:text-sm"
                 >
-                  <Award className="h-4 w-4 text-orange-600" />
-                  3rd Place
+                  <Award className="h-3 w-3 sm:h-4 sm:w-4 text-orange-600 flex-shrink-0" />
+                  <span className="hidden sm:inline">3rd Place</span>
+                  <span className="sm:hidden">3rd</span>
                 </Button>
                 <Button
                   variant={winnerFilters.position === 'all' || !winnerFilters.position ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setWinnerFilters({ ...winnerFilters, position: 'all' })}
+                  className="text-xs sm:text-sm"
                 >
-                  All Winners
+                  <span className="hidden sm:inline">All Winners</span>
+                  <span className="sm:hidden">All</span>
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Select Event *</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Select Event *</label>
                   <Select
                     value={winnerFilters.eventId || undefined}
                     onValueChange={(value) => setWinnerFilters({ ...winnerFilters, eventId: value })}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="text-xs sm:text-sm">
                       <SelectValue placeholder="Select an event..." />
                     </SelectTrigger>
                     <SelectContent>
@@ -954,13 +1044,13 @@ const OrganizerSearch: React.FC = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Winner Position</label>
+                <div className="space-y-1 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Winner Position</label>
                   <Select
                     value={winnerFilters.position || undefined}
                     onValueChange={(value) => setWinnerFilters({ ...winnerFilters, position: value || '' })}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="text-xs sm:text-sm">
                       <SelectValue placeholder="All positions" />
                     </SelectTrigger>
                     <SelectContent>
@@ -972,8 +1062,8 @@ const OrganizerSearch: React.FC = () => {
                   </Select>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button onClick={handleWinnerSearch} disabled={winnerLoading || !winnerFilters.eventId}>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Button onClick={handleWinnerSearch} disabled={winnerLoading || !winnerFilters.eventId} className="w-full sm:w-auto text-xs sm:text-sm">
                   {winnerLoading ? 'Searching...' : 'Search Winners'}
                 </Button>
                 <Button
@@ -985,6 +1075,7 @@ const OrganizerSearch: React.FC = () => {
                     });
                     setWinnerResults([]);
                   }}
+                  className="text-xs sm:text-sm"
                 >
                   Clear
                 </Button>
@@ -992,7 +1083,7 @@ const OrganizerSearch: React.FC = () => {
                   variant="outline"
                   onClick={handleWinnerExportCSV}
                   disabled={winnerExportLoading || winnerResults.length === 0}
-                  className="ml-auto"
+                  className="sm:ml-auto w-full sm:w-auto"
                 >
                   <Download className="h-4 w-4 mr-2" />
                   {winnerExportLoading ? 'Exporting...' : 'Export CSV'}
@@ -1004,83 +1095,126 @@ const OrganizerSearch: React.FC = () => {
           </Card>
 
           {!winnerLoading && winnerResults.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Winner Results ({winnerResults.length} winner(s) found)</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Position</TableHead>
-                        <TableHead>Participant Name</TableHead>
-                        <TableHead>Roll Number</TableHead>
-                        <TableHead>Department</TableHead>
-                        <TableHead>Class</TableHead>
-                        <TableHead>Year</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Registration Time</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {winnerResults.map((participant: any) => {
-                        if (!participant || !participant.id) return null;
-                        
-                        const winnerPos = participant.winner_position ?? null;
-                        const participantName = participant.participant_name || participant.profile?.name || '';
-                        const email = participant.profile?.email || '';
-                        const status = participant.status || '';
-                        const regTime = participant.registration_time || '';
-                        
-                        return (
-                          <TableRow key={participant.id}>
-                            <TableCell>
-                              {winnerPos ? (
-                                <span className={`px-3 py-1 rounded text-sm font-bold ${
-                                  winnerPos === 1 ? 'bg-yellow-500 text-white' :
-                                  winnerPos === 2 ? 'bg-gray-400 text-white' :
-                                  'bg-orange-600 text-white'
+            <>
+              <Card className="hidden md:block">
+                <CardHeader>
+                  <CardTitle>Winner Results ({winnerResults.length} winner(s) found)</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Position</TableHead>
+                          <TableHead>Participant Name</TableHead>
+                          <TableHead>Roll Number</TableHead>
+                          <TableHead>Department</TableHead>
+                          <TableHead>Class</TableHead>
+                          <TableHead>Year</TableHead>
+                          <TableHead>Email</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Registration Time</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {winnerResults.map((participant: any) => {
+                          if (!participant || !participant.id) return null;
+                          
+                          const winnerPos = participant.winner_position ?? null;
+                          const participantName = participant.participant_name || participant.profile?.name || '';
+                          const email = participant.profile?.email || '';
+                          const status = participant.status || '';
+                          const regTime = participant.registration_time || '';
+                          
+                          return (
+                            <TableRow key={participant.id}>
+                              <TableCell>
+                                {winnerPos ? (
+                                  <span className={`px-3 py-1 rounded text-sm font-bold ${
+                                    winnerPos === 1 ? 'bg-yellow-500 text-white' :
+                                    winnerPos === 2 ? 'bg-gray-400 text-white' :
+                                    'bg-orange-600 text-white'
+                                  }`}>
+                                    {winnerPos === 1 ? '🥇 1st Place' :
+                                     winnerPos === 2 ? '🥈 2nd Place' :
+                                     '🥉 3rd Place'}
+                                  </span>
+                                ) : (
+                                  <span className="text-muted-foreground">-</span>
+                                )}
+                              </TableCell>
+                              <TableCell className="font-medium">
+                                {participantName}
+                              </TableCell>
+                              <TableCell>{participant.roll_number || ''}</TableCell>
+                              <TableCell>{participant.department || ''}</TableCell>
+                              <TableCell>{participant.class || ''}</TableCell>
+                              <TableCell>{participant.year || ''}</TableCell>
+                              <TableCell>{email}</TableCell>
+                              <TableCell>
+                                <span className={`px-2 py-1 rounded text-xs ${
+                                  status === 'attended' ? 'bg-green-100 text-green-800' :
+                                  status === 'registered' ? 'bg-blue-100 text-blue-800' :
+                                  'bg-gray-100 text-gray-800'
                                 }`}>
-                                  {winnerPos === 1 ? '🥇 1st Place' :
-                                   winnerPos === 2 ? '🥈 2nd Place' :
-                                   '🥉 3rd Place'}
+                                  {status || 'N/A'}
                                 </span>
-                              ) : (
-                                <span className="text-muted-foreground">-</span>
-                              )}
-                            </TableCell>
-                            <TableCell className="font-medium">
-                              {participantName}
-                            </TableCell>
-                            <TableCell>{participant.roll_number || ''}</TableCell>
-                            <TableCell>{participant.department || ''}</TableCell>
-                            <TableCell>{participant.class || ''}</TableCell>
-                            <TableCell>{participant.year || ''}</TableCell>
-                            <TableCell>{email}</TableCell>
-                            <TableCell>
-                              <span className={`px-2 py-1 rounded text-xs ${
-                                status === 'attended' ? 'bg-green-100 text-green-800' :
-                                status === 'registered' ? 'bg-blue-100 text-blue-800' :
-                                'bg-gray-100 text-gray-800'
-                              }`}>
-                                {status || 'N/A'}
-                              </span>
-                            </TableCell>
-                            <TableCell>
-                              {regTime
-                                ? format(new Date(regTime), 'MMM dd, yyyy HH:mm')
-                                : ''}
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </div>
-              </CardContent>
-            </Card>
+                              </TableCell>
+                              <TableCell>
+                                {regTime
+                                  ? format(new Date(regTime), 'MMM dd, yyyy HH:mm')
+                                  : ''}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="md:hidden space-y-3">
+                <div className="text-sm font-semibold mb-3">Winner Results ({winnerResults.length} winner(s) found)</div>
+                {winnerResults.map((participant: any) => {
+                  if (!participant || !participant.id) return null;
+                  
+                  const winnerPos = participant.winner_position ?? null;
+                  const participantName = participant.participant_name || participant.profile?.name || '';
+                  const email = participant.profile?.email || '';
+                  const status = participant.status || '';
+                  const regTime = participant.registration_time || '';
+                  
+                  return (
+                    <Card key={`w-${participant.id}`}>
+                      <CardContent className="pt-4 space-y-2">
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="font-semibold text-sm">{participantName}</h3>
+                            <p className="text-xs text-gray-500 mt-1">{email || '-'}</p>
+                          </div>
+                          {winnerPos ? (
+                            <span className={`px-2 py-1 rounded text-sm font-bold ${
+                              winnerPos === 1 ? 'bg-yellow-500 text-white' :
+                              winnerPos === 2 ? 'bg-gray-400 text-white' :
+                              'bg-orange-600 text-white'
+                            }`}>
+                              {winnerPos === 1 ? '🥇' : winnerPos === 2 ? '🥈' : '🥉'}
+                            </span>
+                          ) : null}
+                        </div>
+                        <div className="text-xs space-y-1 pt-2 border-t">
+                          <div><strong>Roll:</strong> {participant.roll_number || '-'}</div>
+                          <div><strong>Dept:</strong> {participant.department || '-'} | <strong>Class:</strong> {participant.class || '-'}</div>
+                          <div><strong>Status:</strong> <span className={status === 'attended' ? 'text-green-600' : status === 'registered' ? 'text-blue-600' : 'text-gray-600'}>{status || 'N/A'}</span></div>
+                          <div><strong>Registered:</strong> {regTime ? format(new Date(regTime), 'MMM dd, HH:mm') : '-'}</div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            </>
           )}
 
           {!winnerLoading && winnerResults.length === 0 && winnerFilters.eventId && (
