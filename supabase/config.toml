@@ -1,0 +1,35 @@
+
+project_id = "lutstmiitytmvxmaorkh"
+
+[api]
+enabled = true
+
+[db]
+enabled = true
+
+[realtime]
+enabled = true
+
+[storage]
+enabled = true
+
+[auth]
+enabled = true
+
+[functions]
+enabled = true
+
+[functions.generate-qr-token]
+verify_jwt = true
+
+[functions.validate-qr-checkin]
+verify_jwt = true
+
+[functions.notify-new-event]
+verify_jwt = false
+
+[functions.search-participants]
+verify_jwt = true
+
+[functions.send-event-notification]
+verify_jwt = false
