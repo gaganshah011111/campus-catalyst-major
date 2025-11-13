@@ -179,7 +179,7 @@ const Register: React.FC = () => {
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                       Creating Account...
                     </>
-                  ) : 'Register'}
+                  ) : 'Sign Up'}
                 </Button>
               </div>
             </form>
