@@ -155,90 +155,168 @@ const AdminEventApprovals: React.FC = () => {
           </CardContent>
         </Card>
       ) : (
-        <Card>
-          <CardContent className="p-0">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Event Name</TableHead>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Location</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {pendingEvents.map((event) => (
-                  <TableRow 
-                    key={event.id}
-                    onClick={(e) => {
-                      // Prevent row click from interfering with button clicks
-                      if ((e.target as HTMLElement).closest('button')) {
+        <>
+          {/* Desktop View */}
+          <div className="hidden md:block">
+            <Card>
+              <CardContent className="p-0">
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Event Name</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Location</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {pendingEvents.map((event) => (
+                        <TableRow 
+                          key={event.id}
+                          onClick={(e) => {
+                            // Prevent row click from interfering with button clicks
+                            if ((e.target as HTMLElement).closest('button')) {
+                              e.stopPropagation();
+                            }
+                          }}
+                        >
+                          <TableCell className="font-medium">{event.title}</TableCell>
+                          <TableCell>
+                            {event.created_at && !isNaN(Date.parse(event.created_at))
+                              ? format(new Date(event.created_at), 'MMM d, yyyy, h:mm a')
+                              : 'N/A'}
+                          </TableCell>
+                          <TableCell>{event.location || 'N/A'}</TableCell>
+                          <TableCell>
+                            <Badge
+                              variant="outline"
+                              className="bg-amber-50 text-amber-700 border-amber-200"
+                            >
+                              <Clock size={14} className="mr-1" />
+                              Pending Review
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right space-x-2">
+                            <Button 
+                              type="button"
+                              variant="outline" 
+                              size="sm" 
+                              className="mr-2"
+                              onClick={(e) => handleView(event.id, e)}
+                              disabled={processing}
+                            >
+                              <Eye size={14} className="mr-1" />
+                              View
+                            </Button>
+                            <Button
+                              type="button"
+                              onClick={(e) => handleRejectClick(event, e)}
+                              variant="outline"
+                              size="sm"
+                              className="border-red-200 hover:bg-red-50 hover:text-red-600 mr-2"
+                              disabled={processing}
+                            >
+                              <CalendarX size={14} className="mr-1" />
+                              Reject
+                            </Button>
+                            <Button
+                              type="button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleApprove(event.id);
+                              }}
+                              variant="outline"
+                              size="sm"
+                              className="border-green-200 hover:bg-green-50 hover:text-green-600"
+                              disabled={processing}
+                            >
+                              <CalendarCheck size={14} className="mr-1" />
+                              Approve
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Mobile View */}
+          <div className="md:hidden space-y-4">
+            {pendingEvents.map((event) => (
+              <Card key={event.id} className="overflow-hidden">
+                <CardContent className="p-4 space-y-3">
+                  <div className="flex justify-between items-start gap-2">
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-base text-gray-900 dark:text-gray-100">{event.title}</h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        {event.location || 'N/A'}
+                      </p>
+                    </div>
+                    <Badge
+                      variant="outline"
+                      className="bg-amber-50 text-amber-700 border-amber-200 whitespace-nowrap flex-shrink-0"
+                    >
+                      <Clock size={12} className="mr-1" />
+                      Pending
+                    </Badge>
+                  </div>
+
+                  <div className="text-xs text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-3">
+                    {event.created_at && !isNaN(Date.parse(event.created_at))
+                      ? format(new Date(event.created_at), 'MMM d, yyyy, h:mm a')
+                      : 'N/A'}
+                  </div>
+
+                  <div className="flex gap-2 flex-wrap">
+                    <Button 
+                      type="button"
+                      variant="outline" 
+                      size="sm" 
+                      className="flex-1 min-w-[80px]"
+                      onClick={(e) => handleView(event.id, e)}
+                      disabled={processing}
+                    >
+                      <Eye size={14} className="mr-1" />
+                      View
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={(e) => handleRejectClick(event, e)}
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 min-w-[80px] border-red-200 hover:bg-red-50 hover:text-red-600"
+                      disabled={processing}
+                    >
+                      <CalendarX size={14} className="mr-1" />
+                      Reject
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
                         e.stopPropagation();
-                      }
-                    }}
-                  >
-                    <TableCell className="font-medium">{event.title}</TableCell>
-                    <TableCell>
-                      {event.created_at && !isNaN(Date.parse(event.created_at))
-                        ? format(new Date(event.created_at), 'MMM d, yyyy, h:mm a')
-                        : 'N/A'}
-                    </TableCell>
-                    <TableCell>{event.location || 'N/A'}</TableCell>
-                    <TableCell>
-                      <Badge
-                        variant="outline"
-                        className="bg-amber-50 text-amber-700 border-amber-200"
-                      >
-                        <Clock size={14} className="mr-1" />
-                        Pending Review
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right space-x-2">
-                      <Button 
-                        type="button"
-                        variant="outline" 
-                        size="sm" 
-                        className="mr-2"
-                        onClick={(e) => handleView(event.id, e)}
-                        disabled={processing}
-                      >
-                        <Eye size={14} className="mr-1" />
-                        View
-                      </Button>
-                      <Button
-                        type="button"
-                        onClick={(e) => handleRejectClick(event, e)}
-                        variant="outline"
-                        size="sm"
-                        className="border-red-200 hover:bg-red-50 hover:text-red-600 mr-2"
-                        disabled={processing}
-                      >
-                        <CalendarX size={14} className="mr-1" />
-                        Reject
-                      </Button>
-                      <Button
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handleApprove(event.id);
-                        }}
-                        variant="outline"
-                        size="sm"
-                        className="border-green-200 hover:bg-green-50 hover:text-green-600"
-                        disabled={processing}
-                      >
-                        <CalendarCheck size={14} className="mr-1" />
-                        Approve
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardContent>
-        </Card>
+                        handleApprove(event.id);
+                      }}
+                      variant="outline"
+                      size="sm"
+                      className="flex-1 min-w-[80px] border-green-200 hover:bg-green-50 hover:text-green-600"
+                      disabled={processing}
+                    >
+                      <CalendarCheck size={14} className="mr-1" />
+                      Approve
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </>
       )}
 
       {/* Reject Confirmation Dialog */}

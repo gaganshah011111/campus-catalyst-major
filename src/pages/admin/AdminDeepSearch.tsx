@@ -627,44 +627,48 @@ const AdminDeepSearch: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold">Master Deep Search</h1>
-        <p className="text-muted-foreground mt-2">
+    <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8 max-w-7xl">
+      <div className="mb-4 sm:mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">Master Deep Search</h1>
+        <p className="text-muted-foreground mt-1 sm:mt-2 text-sm sm:text-base">
           Search and manage participants across all events from all organizers
         </p>
       </div>
 
-      <Tabs value={activeView} onValueChange={(v) => setActiveView(v as 'events' | 'participants' | 'winners')} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="events" className="flex items-center gap-2">
-            <Calendar className="h-4 w-4" />
-            Search by Events
+      <Tabs value={activeView} onValueChange={(v) => setActiveView(v as 'events' | 'participants' | 'winners')} className="space-y-4 sm:space-y-6">
+        <TabsList className="grid w-full grid-cols-3 gap-1 sm:gap-0 h-auto p-1 sm:p-1">
+          <TabsTrigger value="events" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 px-1 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Search by Events</span>
+            <span className="sm:hidden">Events</span>
           </TabsTrigger>
-          <TabsTrigger value="participants" className="flex items-center gap-2">
-            <Users className="h-4 w-4" />
-            Search in Event
+          <TabsTrigger value="participants" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 px-1 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+            <Users className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Search in Event</span>
+            <span className="sm:hidden">Participant</span>
           </TabsTrigger>
-          <TabsTrigger value="winners" className="flex items-center gap-2">
-            <Trophy className="h-4 w-4" />
-            Search Winners
+          <TabsTrigger value="winners" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 px-1 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">
+            <Trophy className="h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="hidden sm:inline">Search Winners</span>
+            <span className="sm:hidden">Winners</span>
           </TabsTrigger>
         </TabsList>
 
         {/* View 1: Search by Events */}
-        <TabsContent value="events" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Search className="h-5 w-5" />
-                Search by Event Name, Venue, Organizer and Date Range
+        <TabsContent value="events" className="space-y-4 sm:space-y-6">
+          <Card className="rounded-lg">
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Search className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Search by Event Name, Venue, Organizer and Date Range</span>
+                <span className="sm:hidden">Event Search</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-xs sm:text-sm">
                 Search across all events from all organizers
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <CardContent className="space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Event Name</label>
                   <Input
@@ -717,8 +721,8 @@ const AdminDeepSearch: React.FC = () => {
                   />
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button onClick={handleEventSearch} disabled={eventLoading}>
+              <div className="flex flex-col sm:flex-row gap-2 pt-2 sm:pt-0">
+                <Button onClick={handleEventSearch} disabled={eventLoading} className="w-full sm:w-auto text-sm h-9 sm:h-10">
                   {eventLoading ? 'Searching...' : 'Search'}
                 </Button>
                 <Button
@@ -729,6 +733,7 @@ const AdminDeepSearch: React.FC = () => {
                     setFilteredEventsCount(0);
                     setSelectedOrganizerInfo(null);
                   }}
+                  className="w-full sm:w-auto text-sm h-9 sm:h-10"
                 >
                   Clear
                 </Button>
@@ -736,10 +741,11 @@ const AdminDeepSearch: React.FC = () => {
                   variant="outline"
                   onClick={handleEventExportCSV}
                   disabled={eventExportLoading || eventResults.length === 0}
-                  className="ml-auto"
+                  className="w-full sm:w-auto sm:ml-auto text-sm h-9 sm:h-10"
                 >
-                  <Download className="h-4 w-4 mr-2" />
-                  {eventExportLoading ? 'Exporting...' : 'Export CSV'}
+                  <Download className="h-4 w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">{eventExportLoading ? 'Exporting...' : 'Export CSV'}</span>
+                  <span className="sm:hidden">{eventExportLoading ? 'Export...' : 'Export'}</span>
                 </Button>
               </div>
             </CardContent>
@@ -747,26 +753,26 @@ const AdminDeepSearch: React.FC = () => {
 
           {/* Organizer Statistics Card */}
           {selectedOrganizerInfo && (
-            <Card className="bg-primary/5 border-primary/20">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Building2 className="h-5 w-5 text-primary" />
+            <Card className="bg-primary/5 border-primary/20 rounded-lg">
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+                  <Building2 className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
                   Organizer Statistics
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Organizer Name</p>
-                    <p className="text-lg font-semibold">{selectedOrganizerInfo.name}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Organizer Name</p>
+                    <p className="text-base sm:text-lg font-semibold truncate">{selectedOrganizerInfo.name}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Total Events Created</p>
-                    <p className="text-lg font-semibold text-primary">{selectedOrganizerInfo.totalEvents}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Total Events Created</p>
+                    <p className="text-base sm:text-lg font-semibold text-primary">{selectedOrganizerInfo.totalEvents}</p>
                   </div>
                   <div className="space-y-1">
-                    <p className="text-sm text-muted-foreground">Events in Current Search</p>
-                    <p className="text-lg font-semibold text-primary">{filteredEventsCount}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground">Events in Current Search</p>
+                    <p className="text-base sm:text-lg font-semibold text-primary">{filteredEventsCount}</p>
                   </div>
                 </div>
               </CardContent>
@@ -779,7 +785,8 @@ const AdminDeepSearch: React.FC = () => {
                 <CardTitle>Search Results ({eventResults.length} participants found from {filteredEventsCount} event{filteredEventsCount !== 1 ? 's' : ''})</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="overflow-x-auto">
+                {/* Desktop View */}
+                <div className="hidden md:block overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -840,27 +847,80 @@ const AdminDeepSearch: React.FC = () => {
                     </TableBody>
                   </Table>
                 </div>
+
+                {/* Mobile View */}
+                <div className="md:hidden space-y-3">
+                  {eventResults.map((participant: any) => {
+                    const event = allEvents.find(e => e.id === participant.events?.id);
+                    return (
+                      <div key={participant.id} className="bg-gray-50 dark:bg-gray-900 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-2">
+                        <div className="flex justify-between items-start gap-2">
+                          <div>
+                            <p className="font-medium text-sm text-gray-900 dark:text-gray-100">{participant.events?.title || ''}</p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{event?.organizer_name || 'Unknown'}</p>
+                          </div>
+                          <span className={`px-2 py-1 rounded text-xs whitespace-nowrap flex-shrink-0 ${
+                            participant.status === 'attended' ? 'bg-green-100 text-green-800' :
+                            participant.status === 'registered' ? 'bg-blue-100 text-blue-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {participant.status}
+                          </span>
+                        </div>
+
+                        <div className="text-xs text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-2 space-y-1">
+                          <div><span className="font-medium">Event Date:</span> {participant.events?.start_time ? format(new Date(participant.events.start_time), 'MMM dd, yyyy HH:mm') : ''}</div>
+                          <div><span className="font-medium">Venue:</span> {participant.events?.location || participant.events?.venue || ''}</div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2 text-xs bg-white dark:bg-gray-800 p-2 rounded border border-gray-200 dark:border-gray-700">
+                          <div>
+                            <span className="text-gray-600 dark:text-gray-400">Name:</span>
+                            <p className="font-medium text-gray-900 dark:text-gray-100">{participant.participant_name || participant.profile?.name || ''}</p>
+                          </div>
+                          <div>
+                            <span className="text-gray-600 dark:text-gray-400">Roll:</span>
+                            <p className="font-medium text-gray-900 dark:text-gray-100">{participant.roll_number || ''}</p>
+                          </div>
+                          <div>
+                            <span className="text-gray-600 dark:text-gray-400">Dept:</span>
+                            <p className="font-medium text-gray-900 dark:text-gray-100">{participant.department || ''}</p>
+                          </div>
+                          <div>
+                            <span className="text-gray-600 dark:text-gray-400">Year:</span>
+                            <p className="font-medium text-gray-900 dark:text-gray-100">{participant.year || ''}</p>
+                          </div>
+                        </div>
+
+                        <div className="text-xs text-gray-600 dark:text-gray-400">
+                          <span className="font-medium">Registered:</span> {participant.registration_time ? format(new Date(participant.registration_time), 'MMM dd, yyyy HH:mm') : ''}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </CardContent>
             </Card>
           )}
         </TabsContent>
 
         {/* View 2: Search within specific event */}
-        <TabsContent value="participants" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Search className="h-5 w-5" />
-                Search Participants in Specific Event
+        <TabsContent value="participants" className="space-y-4 sm:space-y-6">
+          <Card className="rounded-lg">
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Search className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Search Participants in Specific Event</span>
+                <span className="sm:hidden">Participant Search</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-xs sm:text-sm">
                 Search participants across any event from any organizer
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Select Event *</label>
+            <CardContent className="space-y-3 sm:space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+                <div className="space-y-1.5 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Select Event *</label>
                   <Popover open={participantEventOpen} onOpenChange={setParticipantEventOpen}>
                     <PopoverTrigger asChild>
                       <Button
@@ -869,17 +929,17 @@ const AdminDeepSearch: React.FC = () => {
                         role="combobox"
                         aria-expanded={participantEventOpen}
                         className={cn(
-                          "w-full justify-between",
+                          "w-full justify-between text-sm h-9 sm:h-10",
                           !participantFilters.eventId && "text-muted-foreground"
                         )}
                       >
-                        {participantFilters.eventId
+                        <span className="truncate">{participantFilters.eventId
                           ? getEventLabel(participantFilters.eventId)
-                          : "Select an event..."}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          : "Select an event..."}</span>
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50 flex-shrink-0" />
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-[320px] p-0">
+                    <PopoverContent className="w-[280px] sm:w-[320px] p-0">
                       <Command>
                         <CommandInput placeholder="Search event..." />
                         <CommandList>
@@ -897,15 +957,15 @@ const AdminDeepSearch: React.FC = () => {
                                   setParticipantEventOpen(false);
                                 }}
                               >
-                                <span>{event.title}</span>
+                                <span className="truncate">{event.title}</span>
                                 {event.organizer_name && (
-                                  <span className="ml-2 text-xs text-muted-foreground">
+                                  <span className="ml-2 text-xs text-muted-foreground truncate">
                                     {event.organizer_name}
                                   </span>
                                 )}
                                 <Check
                                   className={cn(
-                                    "ml-auto h-4 w-4",
+                                    "ml-auto h-4 w-4 flex-shrink-0",
                                     participantFilters.eventId === event.id.toString()
                                       ? "opacity-100"
                                       : "opacity-0"
@@ -919,49 +979,54 @@ const AdminDeepSearch: React.FC = () => {
                     </PopoverContent>
                   </Popover>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Name</label>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Name</label>
                   <Input
                     placeholder="Search by name..."
                     value={participantFilters.name}
                     onChange={(e) => setParticipantFilters({ ...participantFilters, name: e.target.value })}
+                    className="text-sm h-9 sm:h-10"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Roll Number</label>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Roll Number</label>
                   <Input
                     placeholder="Search by roll number..."
                     value={participantFilters.rollNumber}
                     onChange={(e) => setParticipantFilters({ ...participantFilters, rollNumber: e.target.value })}
+                    className="text-sm h-9 sm:h-10"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Department</label>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Department</label>
                   <Input
                     placeholder="Search by department..."
                     value={participantFilters.department}
                     onChange={(e) => setParticipantFilters({ ...participantFilters, department: e.target.value })}
+                    className="text-sm h-9 sm:h-10"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Class</label>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Class</label>
                   <Input
                     placeholder="Search by class..."
                     value={participantFilters.class}
+                    className="text-sm h-9 sm:h-10"
                     onChange={(e) => setParticipantFilters({ ...participantFilters, class: e.target.value })}
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Year</label>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Year</label>
                   <Input
                     placeholder="Search by year..."
                     value={participantFilters.year}
                     onChange={(e) => setParticipantFilters({ ...participantFilters, year: e.target.value })}
+                    className="text-sm h-9 sm:h-10"
                   />
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button onClick={handleParticipantSearch} disabled={participantLoading || !participantFilters.eventId}>
+              <div className="flex flex-col sm:flex-row gap-2 pt-2 sm:pt-0">
+                <Button onClick={handleParticipantSearch} disabled={participantLoading || !participantFilters.eventId} className="w-full sm:w-auto text-sm h-9 sm:h-10">
                   {participantLoading ? 'Searching...' : 'Search'}
                 </Button>
                 <Button
@@ -977,6 +1042,7 @@ const AdminDeepSearch: React.FC = () => {
                     });
                     setParticipantResults([]);
                   }}
+                  className="w-full sm:w-auto text-sm h-9 sm:h-10"
                 >
                   Clear
                 </Button>
@@ -984,22 +1050,24 @@ const AdminDeepSearch: React.FC = () => {
                   variant="outline"
                   onClick={handleParticipantExportCSV}
                   disabled={participantExportLoading || participantResults.length === 0}
-                  className="ml-auto"
+                  className="w-full sm:w-auto sm:ml-auto text-sm h-9 sm:h-10"
                 >
-                  <Download className="h-4 w-4 mr-2" />
-                  {participantExportLoading ? 'Exporting...' : 'Export CSV'}
+                  <Download className="h-4 w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">{participantExportLoading ? 'Exporting...' : 'Export CSV'}</span>
+                  <span className="sm:hidden">{participantExportLoading ? 'Export...' : 'Export'}</span>
                 </Button>
               </div>
             </CardContent>
           </Card>
 
           {participantResults.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Search Results ({participantResults.length} participants found)</CardTitle>
+            <Card className="rounded-lg">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base sm:text-lg">Search Results ({participantResults.length} participants found)</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="overflow-x-auto">
+                {/* Desktop View */}
+                <div className="hidden md:block overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -1055,76 +1123,137 @@ const AdminDeepSearch: React.FC = () => {
                     </TableBody>
                   </Table>
                 </div>
+
+                {/* Mobile View */}
+                <div className="md:hidden space-y-3">
+                  {participantResults.map((participant: any) => (
+                    <div key={participant.id} className="bg-gray-50 dark:bg-gray-900 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-2">
+                      <div className="flex justify-between items-start gap-2">
+                        <div>
+                          <p className="font-medium text-sm text-gray-900 dark:text-gray-100">
+                            {participant.participant_name || participant.profile?.name || ''}
+                          </p>
+                          <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{participant.roll_number || ''}</p>
+                        </div>
+                        <span className={`px-2 py-1 rounded text-xs whitespace-nowrap flex-shrink-0 ${
+                          participant.status === 'attended' ? 'bg-green-100 text-green-800' :
+                          participant.status === 'registered' ? 'bg-blue-100 text-blue-800' :
+                          'bg-gray-100 text-gray-800'
+                        }`}>
+                          {participant.status}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 text-xs bg-white dark:bg-gray-800 p-2 rounded border border-gray-200 dark:border-gray-700">
+                        <div>
+                          <span className="text-gray-600 dark:text-gray-400">Department:</span>
+                          <p className="font-medium text-gray-900 dark:text-gray-100">{participant.department || ''}</p>
+                        </div>
+                        <div>
+                          <span className="text-gray-600 dark:text-gray-400">Class:</span>
+                          <p className="font-medium text-gray-900 dark:text-gray-100">{participant.class || ''}</p>
+                        </div>
+                        <div>
+                          <span className="text-gray-600 dark:text-gray-400">Year:</span>
+                          <p className="font-medium text-gray-900 dark:text-gray-100">{participant.year || ''}</p>
+                        </div>
+                        <div>
+                          <span className="text-gray-600 dark:text-gray-400">Winner:</span>
+                          <p className="font-medium text-gray-900 dark:text-gray-100">
+                            {participant.is_winner ? 'Yes' : 'No'}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="text-xs text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-2 space-y-1">
+                        <div>
+                          <span className="font-medium">Registered:</span> {participant.registration_time ? format(new Date(participant.registration_time), 'MMM dd, yyyy HH:mm') : ''}
+                        </div>
+                        <div>
+                          <span className="font-medium">Check-in:</span> {participant.check_in_time ? format(new Date(participant.check_in_time), 'MMM dd, yyyy HH:mm') : '-'}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </CardContent>
             </Card>
           )}
         </TabsContent>
 
         {/* View 3: Search Winners */}
-        <TabsContent value="winners" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Trophy className="h-5 w-5" />
-                Search Event Winners
+        <TabsContent value="winners" className="space-y-4 sm:space-y-6">
+          <Card className="rounded-lg">
+            <CardHeader className="pb-3 sm:pb-6">
+              <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+                <Trophy className="h-4 w-4 sm:h-5 sm:w-5" />
+                <span className="hidden sm:inline">Search Event Winners</span>
+                <span className="sm:hidden">Winners</span>
               </CardTitle>
-              <CardDescription>
+              <CardDescription className="text-xs sm:text-sm">
                 Search for winners (1st, 2nd, 3rd place) across any event
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex flex-wrap gap-2 mb-4">
+            <CardContent className="space-y-3 sm:space-y-4">
+              <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                 <Button
                   variant={winnerFilters.position === '1' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setWinnerFilters({ ...winnerFilters, position: winnerFilters.position === '1' ? 'all' : '1' })}
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
                 >
-                  <Trophy className="h-4 w-4 text-yellow-500" />
-                  1st Place
+                  <Trophy className="h-3 w-3 sm:h-4 sm:w-4 text-yellow-500" />
+                  <span className="hidden sm:inline">1st Place</span>
+                  <span className="sm:hidden">1st</span>
                 </Button>
                 <Button
                   variant={winnerFilters.position === '2' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setWinnerFilters({ ...winnerFilters, position: winnerFilters.position === '2' ? 'all' : '2' })}
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
                 >
-                  <Medal className="h-4 w-4 text-gray-400" />
-                  2nd Place
+                  <Medal className="h-3 w-3 sm:h-4 sm:w-4 text-gray-400" />
+                  <span className="hidden sm:inline">2nd Place</span>
+                  <span className="sm:hidden">2nd</span>
                 </Button>
                 <Button
                   variant={winnerFilters.position === '3' ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setWinnerFilters({ ...winnerFilters, position: winnerFilters.position === '3' ? 'all' : '3' })}
-                  className="flex items-center gap-1"
+                  className="flex items-center gap-1 text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
                 >
-                  <Award className="h-4 w-4 text-orange-600" />
-                  3rd Place
+                  <Award className="h-3 w-3 sm:h-4 sm:w-4 text-orange-600" />
+                  <span className="hidden sm:inline">3rd Place</span>
+                  <span className="sm:hidden">3rd</span>
                 </Button>
                 <Button
                   variant={winnerFilters.position === 'all' || !winnerFilters.position ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setWinnerFilters({ ...winnerFilters, position: 'all' })}
+                  className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2"
                 >
                   All Winners
                 </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Select Event *</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                <div className="space-y-1.5 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Select Event *</label>
                   <Select
                     value={winnerFilters.eventId || undefined}
                     onValueChange={(value) => setWinnerFilters({ ...winnerFilters, eventId: value })}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="text-sm h-9 sm:h-10">
                       <SelectValue placeholder="Select an event..." />
                     </SelectTrigger>
                     <SelectContent>
                       {allEvents.length > 0 ? (
                         allEvents.map((event) => (
                           <SelectItem key={event.id} value={event.id.toString()}>
-                            {event.title} - {event.organizer_name}
+                            <span className="truncate">{event.title}</span>
+                            {event.organizer_name && (
+                              <span className="text-xs text-muted-foreground ml-1">- {event.organizer_name}</span>
+                            )}
                           </SelectItem>
                         ))
                       ) : (
@@ -1133,13 +1262,13 @@ const AdminDeepSearch: React.FC = () => {
                     </SelectContent>
                   </Select>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Winner Position</label>
+                <div className="space-y-1.5 sm:space-y-2">
+                  <label className="text-xs sm:text-sm font-medium">Winner Position</label>
                   <Select
                     value={winnerFilters.position || undefined}
                     onValueChange={(value) => setWinnerFilters({ ...winnerFilters, position: value || '' })}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="text-sm h-9 sm:h-10">
                       <SelectValue placeholder="All positions" />
                     </SelectTrigger>
                     <SelectContent>
@@ -1151,8 +1280,8 @@ const AdminDeepSearch: React.FC = () => {
                   </Select>
                 </div>
               </div>
-              <div className="flex gap-2">
-                <Button onClick={handleWinnerSearch} disabled={winnerLoading || !winnerFilters.eventId}>
+              <div className="flex flex-col sm:flex-row gap-2 pt-2 sm:pt-0">
+                <Button onClick={handleWinnerSearch} disabled={winnerLoading || !winnerFilters.eventId} className="w-full sm:w-auto text-sm h-9 sm:h-10">
                   {winnerLoading ? 'Searching...' : 'Search Winners'}
                 </Button>
                 <Button
@@ -1164,6 +1293,7 @@ const AdminDeepSearch: React.FC = () => {
                     });
                     setWinnerResults([]);
                   }}
+                  className="w-full sm:w-auto text-sm h-9 sm:h-10"
                 >
                   Clear
                 </Button>
@@ -1171,22 +1301,24 @@ const AdminDeepSearch: React.FC = () => {
                   variant="outline"
                   onClick={handleWinnerExportCSV}
                   disabled={winnerExportLoading || winnerResults.length === 0}
-                  className="ml-auto"
+                  className="w-full sm:w-auto sm:ml-auto text-sm h-9 sm:h-10"
                 >
-                  <Download className="h-4 w-4 mr-2" />
-                  {winnerExportLoading ? 'Exporting...' : 'Export CSV'}
+                  <Download className="h-4 w-4 mr-1 sm:mr-2" />
+                  <span className="hidden sm:inline">{winnerExportLoading ? 'Exporting...' : 'Export CSV'}</span>
+                  <span className="sm:hidden">{winnerExportLoading ? 'Export...' : 'Export'}</span>
                 </Button>
               </div>
             </CardContent>
           </Card>
 
           {!winnerLoading && winnerResults.length > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Winner Results ({winnerResults.length} winner(s) found)</CardTitle>
+            <Card className="rounded-lg">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base sm:text-lg">Winner Results ({winnerResults.length} winner(s) found)</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="overflow-x-auto">
+                {/* Desktop View */}
+                <div className="hidden md:block overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -1254,6 +1386,73 @@ const AdminDeepSearch: React.FC = () => {
                       })}
                     </TableBody>
                   </Table>
+                </div>
+
+                {/* Mobile View */}
+                <div className="md:hidden space-y-3">
+                  {winnerResults.map((participant: any) => {
+                    if (!participant || !participant.id) return null;
+                    const event = allEvents.find(e => e.id === participant.events?.id);
+                    const winnerPos = participant.winner_position ?? null;
+                    return (
+                      <div key={participant.id} className="bg-gray-50 dark:bg-gray-900 p-3 rounded-lg border border-gray-200 dark:border-gray-700 space-y-2">
+                        <div className="flex justify-between items-start gap-2">
+                          <div>
+                            <p className="font-medium text-sm text-gray-900 dark:text-gray-100">
+                              {participant.participant_name || participant.profile?.name || ''}
+                            </p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mt-1">{participant.roll_number || ''}</p>
+                          </div>
+                          {winnerPos ? (
+                            <span className={`px-2 py-1 rounded text-xs font-bold whitespace-nowrap flex-shrink-0 ${
+                              winnerPos === 1 ? 'bg-yellow-500 text-white' :
+                              winnerPos === 2 ? 'bg-gray-400 text-white' :
+                              'bg-orange-600 text-white'
+                            }`}>
+                              {winnerPos === 1 ? '🥇 1st' :
+                               winnerPos === 2 ? '🥈 2nd' :
+                               '🥉 3rd'}
+                            </span>
+                          ) : null}
+                        </div>
+
+                        <div className="text-xs text-gray-600 dark:text-gray-400 border-t border-gray-200 dark:border-gray-700 pt-2">
+                          <p><span className="font-medium">Event:</span> {participant.events?.title || ''}</p>
+                          <p><span className="font-medium">Organizer:</span> {event?.organizer_name || 'Unknown'}</p>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-2 text-xs bg-white dark:bg-gray-800 p-2 rounded border border-gray-200 dark:border-gray-700">
+                          <div>
+                            <span className="text-gray-600 dark:text-gray-400">Department:</span>
+                            <p className="font-medium text-gray-900 dark:text-gray-100">{participant.department || ''}</p>
+                          </div>
+                          <div>
+                            <span className="text-gray-600 dark:text-gray-400">Class:</span>
+                            <p className="font-medium text-gray-900 dark:text-gray-100">{participant.class || ''}</p>
+                          </div>
+                          <div>
+                            <span className="text-gray-600 dark:text-gray-400">Year:</span>
+                            <p className="font-medium text-gray-900 dark:text-gray-100">{participant.year || ''}</p>
+                          </div>
+                          <div>
+                            <span className="text-gray-600 dark:text-gray-400">Status:</span>
+                            <span className={`inline-flex text-xs font-semibold rounded px-1.5 py-0.5 mt-1 ${
+                              participant.status === 'attended' ? 'bg-green-100 text-green-800' :
+                              participant.status === 'registered' ? 'bg-blue-100 text-blue-800' :
+                              'bg-gray-100 text-gray-800'
+                            }`}>
+                              {participant.status || 'N/A'}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                          <p><span className="font-medium">Email:</span> {participant.profile?.email || ''}</p>
+                          <p><span className="font-medium">Registered:</span> {participant.registration_time ? format(new Date(participant.registration_time), 'MMM dd, yyyy HH:mm') : ''}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </CardContent>
             </Card>
