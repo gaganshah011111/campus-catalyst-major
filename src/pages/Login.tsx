@@ -147,7 +147,7 @@ const Login: React.FC = () => {
             <p className="text-sm text-gray-600">
               Don't have an account?{' '}
               <Link to="/register" className="font-medium text-primary hover:underline">
-                Register here
+                Sign Up here
               </Link>
             </p>
           </CardFooter>
