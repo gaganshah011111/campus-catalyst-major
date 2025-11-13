@@ -3,6 +3,7 @@ import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import departments from '@/constants/departments';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -72,6 +73,7 @@ const AdminDeepSearch: React.FC = () => {
   const [eventExportLoading, setEventExportLoading] = useState(false);
   const [filteredEventsCount, setFilteredEventsCount] = useState<number>(0);
   const [selectedOrganizerInfo, setSelectedOrganizerInfo] = useState<{ name: string; totalEvents: number } | null>(null);
+  const [participantDeptQuery, setParticipantDeptQuery] = useState('');
 
   // View 2: Search within specific event
   const [participantFilters, setParticipantFilters] = useState({
@@ -99,6 +101,8 @@ const AdminDeepSearch: React.FC = () => {
   
   const [allEvents, setAllEvents] = useState<Event[]>([]);
   const [organizers, setOrganizers] = useState<{ id: string; name: string; email: string }[]>([]);
+  const [organizersQuery, setOrganizersQuery] = useState('');
+  const [winnerEventQuery, setWinnerEventQuery] = useState('');
   const [initialLoading, setInitialLoading] = useState(true);
 
   const getEventLabel = (eventId?: string | null) => {
@@ -689,18 +693,35 @@ const AdminDeepSearch: React.FC = () => {
                   <label className="text-sm font-medium">Organizer</label>
                   <Select
                     value={eventFilters.organizerId || 'all'}
-                    onValueChange={(value) => setEventFilters({ ...eventFilters, organizerId: value === 'all' ? '' : value })}
+                    onValueChange={(value) => {
+                      setEventFilters({ ...eventFilters, organizerId: value === 'all' ? '' : value });
+                      setOrganizersQuery('');
+                    }}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="All organizers" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All organizers</SelectItem>
-                      {organizers.map((org) => (
-                        <SelectItem key={org.id} value={org.id}>
-                          {org.name}
-                        </SelectItem>
-                      ))}
+                    <SelectContent className="w-full sm:max-w-xs">
+                      <div className="p-2">
+                        <Input
+                          placeholder="Search organizer..."
+                          value={organizersQuery}
+                          onChange={(e) => setOrganizersQuery(e.target.value)}
+                          className="mb-2 text-sm"
+                          onKeyDown={(e) => e.stopPropagation()}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <div className="max-h-56 overflow-y-auto">
+                          <SelectItem value="all">All organizers</SelectItem>
+                          {organizers
+                            .filter((o) => o.name.toLowerCase().includes(organizersQuery.toLowerCase()))
+                            .map((org) => (
+                              <SelectItem key={org.id} value={org.id}>
+                                {org.name}
+                              </SelectItem>
+                            ))}
+                        </div>
+                      </div>
                     </SelectContent>
                   </Select>
                 </div>
@@ -999,12 +1020,38 @@ const AdminDeepSearch: React.FC = () => {
                 </div>
                 <div className="space-y-1.5 sm:space-y-2">
                   <label className="text-xs sm:text-sm font-medium">Department</label>
-                  <Input
-                    placeholder="Search by department..."
-                    value={participantFilters.department}
-                    onChange={(e) => setParticipantFilters({ ...participantFilters, department: e.target.value })}
-                    className="text-sm h-9 sm:h-10"
-                  />
+                  <Select
+                    value={participantFilters.department || undefined}
+                    onValueChange={(value) => {
+                      setParticipantFilters({ ...participantFilters, department: value || '' });
+                      setParticipantDeptQuery('');
+                    }}
+                  >
+                    <SelectTrigger className="text-sm h-9 sm:h-10 w-full">
+                      <SelectValue placeholder="Select department..." />
+                    </SelectTrigger>
+                    <SelectContent className="w-full sm:max-w-xs">
+                      <div className="p-2">
+                        <Input
+                          placeholder="Search department..."
+                          value={participantDeptQuery}
+                          onChange={(e) => setParticipantDeptQuery(e.target.value)}
+                          className="mb-2 text-xs"
+                          onKeyDown={(e) => e.stopPropagation()}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <div className="max-h-56 overflow-y-auto">
+                          {departments
+                            .filter((d) => d.toLowerCase().includes((participantDeptQuery || '').toLowerCase()))
+                            .map((d) => (
+                              <SelectItem key={d} value={d}>
+                                {d}
+                              </SelectItem>
+                          ))}
+                        </div>
+                      </div>
+                    </SelectContent>
+                  </Select>
                 </div>
                 <div className="space-y-1.5 sm:space-y-2">
                   <label className="text-xs sm:text-sm font-medium">Class</label>
@@ -1241,24 +1288,41 @@ const AdminDeepSearch: React.FC = () => {
                   <label className="text-xs sm:text-sm font-medium">Select Event *</label>
                   <Select
                     value={winnerFilters.eventId || undefined}
-                    onValueChange={(value) => setWinnerFilters({ ...winnerFilters, eventId: value })}
+                    onValueChange={(value) => {
+                      setWinnerFilters({ ...winnerFilters, eventId: value });
+                      setWinnerEventQuery('');
+                    }}
                   >
-                    <SelectTrigger className="text-sm h-9 sm:h-10">
+                    <SelectTrigger className="text-sm h-9 sm:h-10 w-full">
                       <SelectValue placeholder="Select an event..." />
                     </SelectTrigger>
-                    <SelectContent>
-                      {allEvents.length > 0 ? (
-                        allEvents.map((event) => (
-                          <SelectItem key={event.id} value={event.id.toString()}>
-                            <span className="truncate">{event.title}</span>
-                            {event.organizer_name && (
-                              <span className="text-xs text-muted-foreground ml-1">- {event.organizer_name}</span>
-                            )}
-                          </SelectItem>
-                        ))
-                      ) : (
-                        <SelectItem value="no-events" disabled>No events available</SelectItem>
-                      )}
+                    <SelectContent className="w-full sm:max-w-md">
+                      <div className="p-2">
+                        <Input
+                          placeholder="Search event..."
+                          value={winnerEventQuery}
+                          onChange={(e) => setWinnerEventQuery(e.target.value)}
+                          className="mb-2 text-sm"
+                          onKeyDown={(e) => e.stopPropagation()}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                        <div className="max-h-64 overflow-y-auto">
+                          {allEvents.length > 0 ? (
+                            allEvents
+                              .filter(ev => ev.title.toLowerCase().includes(winnerEventQuery.toLowerCase()) || (ev.organizer_name || '').toLowerCase().includes(winnerEventQuery.toLowerCase()))
+                              .map((event) => (
+                                <SelectItem key={event.id} value={event.id.toString()}>
+                                  <span className="truncate">{event.title}</span>
+                                  {event.organizer_name && (
+                                    <span className="text-xs text-muted-foreground ml-1">- {event.organizer_name}</span>
+                                  )}
+                                </SelectItem>
+                              ))
+                          ) : (
+                            <SelectItem value="no-events" disabled>No events available</SelectItem>
+                          )}
+                        </div>
+                      </div>
                     </SelectContent>
                   </Select>
                 </div>

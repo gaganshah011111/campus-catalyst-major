@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { supabase } from '@/lib/supabase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -46,6 +47,8 @@ const AssignWinners: React.FC = () => {
   const [selectedEventId, setSelectedEventId] = useState<string>('');
   const [organizerEvents, setOrganizerEvents] = useState<Event[]>([]);
   const [participants, setParticipants] = useState<Participant[]>([]);
+  const [assignEventQuery, setAssignEventQuery] = useState('');
+  const [participantQuery, setParticipantQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [winners, setWinners] = useState<{
@@ -369,15 +372,29 @@ const AssignWinners: React.FC = () => {
         </CardHeader>
         <CardContent>
           <Select value={selectedEventId} onValueChange={setSelectedEventId}>
-            <SelectTrigger className="w-full max-w-md">
+            <SelectTrigger className="text-sm h-9 sm:h-10 w-full sm:max-w-md">
               <SelectValue placeholder="Select an event..." />
             </SelectTrigger>
-            <SelectContent>
-              {organizerEvents.map((event) => (
-                <SelectItem key={event.id} value={event.id.toString()}>
-                  {event.title} - {format(new Date(event.start_time), 'MMM dd, yyyy')}
-                </SelectItem>
-              ))}
+            <SelectContent className="w-full sm:max-w-md">
+              <div className="p-2">
+                <Input
+                  placeholder="Search event..."
+                  value={assignEventQuery}
+                  onChange={(e) => setAssignEventQuery(e.target.value)}
+                  className="mb-2 text-xs"
+                  onKeyDown={(e) => e.stopPropagation()}
+                  onClick={(e) => e.stopPropagation()}
+                />
+                <div className="max-h-64 overflow-y-auto">
+                  {organizerEvents
+                    .filter(ev => ev.title.toLowerCase().includes(assignEventQuery.toLowerCase()))
+                    .map((event) => (
+                      <SelectItem key={event.id} value={event.id.toString()}>
+                        {event.title} - {format(new Date(event.start_time), 'MMM dd, yyyy')}
+                      </SelectItem>
+                    ))}
+                </div>
+              </div>
             </SelectContent>
           </Select>
         </CardContent>
@@ -420,39 +437,58 @@ const AssignWinners: React.FC = () => {
                         <Icon className={`h-4 w-4 ${color.replace('bg-', 'text-')}`} />
                         {label}
                       </label>
-                      <Select
-                        value={winners[position]?.toString() || 'none'}
-                        onValueChange={(value) => handleWinnerSelect(position, value === 'none' ? null : parseInt(value))}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder={`Select ${label} winner...`} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="none">None</SelectItem>
-                          {participants.length > 0 ? (
-                            participants
-                              .filter(p => {
-                                // Don't show if already selected in another position
-                                if (position === 'first' && (winners.second === p.id || winners.third === p.id)) return false;
-                                if (position === 'second' && (winners.first === p.id || winners.third === p.id)) return false;
-                                if (position === 'third' && (winners.first === p.id || winners.second === p.id)) return false;
-                                return true;
-                              })
-                              .map((participant) => {
-                                const participantId = participant.id?.toString();
-                                if (!participantId || participantId === '') return null;
-                                return (
-                                  <SelectItem key={participant.id} value={participantId}>
-                                    {participant.participant_name || participant.profile?.name || 'Unknown'} 
-                                    {participant.roll_number && ` (${participant.roll_number})`}
-                                  </SelectItem>
-                                );
-                              })
-                          ) : (
-                            <SelectItem value="no-participants" disabled>No participants available</SelectItem>
-                          )}
-                        </SelectContent>
-                      </Select>
+                          <Select
+                            value={winners[position]?.toString() || 'none'}
+                            onValueChange={(value) => handleWinnerSelect(position, value === 'none' ? null : parseInt(value))}
+                          >
+                            <SelectTrigger className="text-sm h-9 sm:h-10 w-full">
+                              <SelectValue placeholder={`Select ${label} winner...`} />
+                            </SelectTrigger>
+                            <SelectContent className="w-full sm:max-w-md">
+                              <div className="p-2">
+                                <Input
+                                  placeholder="Search participant..."
+                                  value={participantQuery}
+                                  onChange={(e) => setParticipantQuery(e.target.value)}
+                                  className="mb-2 text-xs"
+                                  onKeyDown={(e) => e.stopPropagation()}
+                                  onClick={(e) => e.stopPropagation()}
+                                />
+                                <div className="max-h-56 overflow-y-auto">
+                                  <SelectItem value="none">None</SelectItem>
+                                  {participants.length > 0 ? (
+                                    participants
+                                      .filter(p => {
+                                        // Don't show if already selected in another position
+                                        if (position === 'first' && (winners.second === p.id || winners.third === p.id)) return false;
+                                        if (position === 'second' && (winners.first === p.id || winners.third === p.id)) return false;
+                                        if (position === 'third' && (winners.first === p.id || winners.second === p.id)) return false;
+                                        // Filter by participantQuery (name or roll)
+                                        if (participantQuery && participantQuery.trim() !== '') {
+                                          const q = participantQuery.toLowerCase();
+                                          const name = (p.participant_name || p.profile?.name || '').toLowerCase();
+                                          const roll = (p.roll_number || '').toLowerCase();
+                                          return name.includes(q) || roll.includes(q);
+                                        }
+                                        return true;
+                                      })
+                                      .map((participant) => {
+                                        const participantId = participant.id?.toString();
+                                        if (!participantId || participantId === '') return null;
+                                        return (
+                                          <SelectItem key={participant.id} value={participantId}>
+                                            {participant.participant_name || participant.profile?.name || 'Unknown'}
+                                            {participant.roll_number && ` (${participant.roll_number})`}
+                                          </SelectItem>
+                                        );
+                                      })
+                                  ) : (
+                                    <SelectItem value="no-participants" disabled>No participants available</SelectItem>
+                                  )}
+                                </div>
+                              </div>
+                            </SelectContent>
+                          </Select>
                       {winners[position] && (
                         <div className="p-3 bg-muted rounded-md">
                           {(() => {
