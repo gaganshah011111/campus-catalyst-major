@@ -162,7 +162,7 @@ const Home: React.FC = () => {
         ) : (
           <div className="w-full max-w-6xl h-[70vh] bg-gradient-to-r from-primary to-primary-foreground rounded-2xl flex items-center justify-center">
             <div className="text-center text-white p-8">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">Welcome to Campus Catalyst</h1>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">Welcome to Advanced Campus Catalyst</h1>
               <p className="text-lg md:text-xl mb-8">Your hub for campus events and activities</p>
               <div className="flex justify-center gap-4">
                 {isAuthenticated ? (

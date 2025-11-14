@@ -20,7 +20,7 @@ const About: React.FC = () => {
   return (
     <div>
       <header className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4">About Campus Catalyst</h1>
+        <h1 className="text-3xl md:text-4xl font-bold mb-4">About Advanced Campus Catalyst</h1>
         <p className="text-lg text-gray-600 max-w-2xl mx-auto">
           A comprehensive platform designed to enhance campus life through simplified event management and discovery.
         </p>
@@ -30,7 +30,7 @@ const About: React.FC = () => {
         <div>
           <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
           <p className="text-gray-700 mb-4">
-            Campus Catalyst aims to create a more connected and engaged campus community by making it easy for students to discover events and for organizers to reach their audience.
+            Advanced Campus Catalyst aims to create a more connected and engaged campus community by making it easy for students to discover events and for organizers to reach their audience.
           </p>
           <p className="text-gray-700 mb-4">
             We believe that campus events are a crucial part of the college experience, fostering connections, learning opportunities, and memorable experiences that extend beyond the classroom.
@@ -111,7 +111,7 @@ const About: React.FC = () => {
       <div className="text-center bg-gray-50 p-8 rounded-lg">
         <h2 className="text-2xl font-bold mb-4">Get Started Today</h2>
         <p className="text-gray-700 mb-6 max-w-2xl mx-auto">
-          Join Campus Catalyst to enhance your campus experience by discovering events that match your interests or creating events to share your passions with the community.
+          Join Advanced Campus Catalyst to enhance your campus experience by discovering events that match your interests or creating events to share your passions with the community.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
           <Link to="/register">

@@ -132,7 +132,7 @@ serve(async (req) => {
         });
 
         await client.send({
-          from: `Campus Catalyst <${gmailUser}>`,
+          from: `Advanced Campus Catalyst <${gmailUser}>`,
           to: user.email,
           subject: `🎉 New Event: ${eventData.title} - Register Now!`,
           content: "auto",

@@ -109,7 +109,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <p className="text-sm text-muted-foreground text-center md:text-left">
-              © {new Date().getFullYear()} Campus Catalyst. All rights reserved.
+              © {new Date().getFullYear()} Advanced Campus Catalyst. All rights reserved.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center">
               <Link 

@@ -30,7 +30,7 @@ export function useFirstLogin() {
           setShowFirstLoginDialog(true);
           
           // Show toast notification
-          toast.success('Welcome to Campus Catalyst!', {
+          toast.success('Welcome to Advanced Campus Catalyst!', {
             description: 'Check out the latest events on campus.',
             action: {
               label: 'View Events',
@@ -51,7 +51,7 @@ export function useFirstLogin() {
         <DialogHeader>
           <DialogTitle className="flex items-center">
             <Bell className="h-5 w-5 text-primary mr-2" />
-            Welcome to Campus Catalyst!
+            Welcome to Advanced Campus Catalyst!
           </DialogTitle>
           <DialogDescription>
             We're excited to have you here. Discover and participate in campus events.

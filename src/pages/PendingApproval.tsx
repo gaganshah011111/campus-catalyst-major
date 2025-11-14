@@ -100,7 +100,7 @@ const PendingApproval: React.FC = () => {
         <CardContent className="text-center">
           <div className="space-y-4">
             <p>
-              Thank you for registering as an event organizer with Campus Catalyst. 
+              Thank you for registering as an event organizer with Advanced Campus Catalyst. 
               Before you can start creating and managing events, your account needs to be approved by an administrator.
             </p>
             <p>

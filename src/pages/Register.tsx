@@ -74,14 +74,14 @@ const Register: React.FC = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4 py-8">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary mb-2">Campus Catalyst</h1>
+          <h1 className="text-3xl font-bold text-primary mb-2">Advanced Campus Catalyst</h1>
           <p className="text-gray-600">Your campus event management hub</p>
         </div>
         
         <Card className="w-full">
           <CardHeader>
             <CardTitle>Create an Account</CardTitle>
-            <CardDescription>Sign up to start using Campus Catalyst</CardDescription>
+            <CardDescription>Sign up to start using Advanced Campus Catalyst</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit}>

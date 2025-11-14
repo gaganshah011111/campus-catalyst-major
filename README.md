@@ -1,11 +1,11 @@
 
-# Campus Catalyst - Campus Event Management System
+# Advanced Campus Catalyst - Campus Event Management System
 
 A comprehensive platform designed to enhance campus life through simplified event management and discovery.
 
 ## Project Overview
 
-Campus Catalyst is a web application that helps students, organizers, and administrators manage campus events effectively. The platform enables:
+Advanced Campus Catalyst is a web application that helps students, organizers, and administrators manage campus events effectively. The platform enables:
 
 - Students to discover and register for events, view their registrations, and provide feedback
 - Organizers to create, manage, and track attendance for their events

@@ -58,7 +58,7 @@ const Layout: React.FC = () => {
               <div className="flex min-h-[60vh] flex-col items-center justify-center text-center space-y-4">
                 <h2 className="text-3xl font-semibold">We'll be right back</h2>
                 <p className="max-w-xl text-muted-foreground">
-                  Campus Catalyst is currently in maintenance mode. Administrators are applying updates to improve your experience.
+                  Advanced Campus Catalyst is currently in maintenance mode. Administrators are applying updates to improve your experience.
                   Please check back soon or contact us at <span className="font-medium text-primary">{supportEmail}</span> if you need immediate assistance.
                 </p>
               </div>
@@ -81,7 +81,7 @@ const Layout: React.FC = () => {
         <div className="max-w-7xl mx-auto px-0">
           <div className="flex flex-col md:flex-row justify-between items-center gap-2 md:gap-4">
             <p className="text-xs md:text-sm text-muted-foreground text-center md:text-left">
-              © {new Date().getFullYear()} Campus Catalyst. All rights reserved.
+              © {new Date().getFullYear()} Advanced Campus Catalyst. All rights reserved.
             </p>
             <div className="flex flex-row gap-2 sm:gap-3 items-center">
               <Link

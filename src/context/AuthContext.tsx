@@ -219,7 +219,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (role === 'organizer') {
           toast.success('Registration successful! Your organizer account is pending approval.');
         } else {
-          toast.success('Registration successful! Welcome to Campus Catalyst.');
+          toast.success('Registration successful! Welcome to Advanced Campus Catalyst.');
         }
         
         return true;

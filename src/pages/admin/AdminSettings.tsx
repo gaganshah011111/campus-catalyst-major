@@ -43,7 +43,7 @@ const AdminSettings: React.FC = () => {
       <div>
         <h1 className="text-3xl font-bold">Admin Settings</h1>
         <p className="text-muted-foreground mt-2">
-          Configure global options for Campus Catalyst.
+          Configure global options for Advanced Campus Catalyst.
         </p>
       </div>
 
