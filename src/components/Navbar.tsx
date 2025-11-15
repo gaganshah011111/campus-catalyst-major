@@ -87,7 +87,12 @@ const Navbar: React.FC<NavbarProps> = ({ toggleSidebar }) => {
               <Menu size={24} />
             </button>
             <Link to="/" className="flex items-center">
-              <span className="text-xl font-bold text-primary dark:text-white">Advanced Campus Catalyst</span>
+              <span className="font-bold text-primary dark:text-white text-base leading-tight sm:hidden">
+                Campus Catalyst
+              </span>
+              <span className="font-bold text-primary dark:text-white text-lg md:text-xl leading-tight hidden sm:inline">
+                Advanced Campus Catalyst
+              </span>
             </Link>
           </div>
 

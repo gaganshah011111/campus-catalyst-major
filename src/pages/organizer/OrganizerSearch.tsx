@@ -600,15 +600,6 @@ const OrganizerSearch: React.FC = () => {
                   />
                 </div>
                 <div className="space-y-1 sm:space-y-2">
-                  <label className="text-xs sm:text-sm font-medium">Venue</label>
-                  <Input
-                    placeholder="Search venue..."
-                    value={eventFilters.venue}
-                    onChange={(e) => setEventFilters({ ...eventFilters, venue: e.target.value })}
-                    className="text-xs sm:text-sm"
-                  />
-                </div>
-                <div className="space-y-1 sm:space-y-2">
                   <label className="text-xs sm:text-sm font-medium">Start Date</label>
                   <Input
                     type="date"
